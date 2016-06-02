@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # coding=UTF-8
-# argument folder with pictures
+comm='''
+    AUTHOR: ThomasWe
+    DESCRIPTION: Python Script to generate a time lapse movie from images.
+    Image File Name Pattern: yyyy-mm-dd-HH-MM.jpg
+'''
 import sys
 import io
 import time
