@@ -19,14 +19,24 @@ FONTSIZE = 60
 ROTATE = True
 DEGREE = 180
 
-#load argument
-path = sys.argv[1]
-
 date_format = "%d/%m/%Y"
+
+#check arguments
+try:
+   path = sys.argv[1]
+except IndexError:
+   print "ERROR: give a path to the image directory"
+   sys.exit()
+
+#exit if path does not exists
+if not os.path.exists(path):
+   print "ERROR: given path does not exists"
+   sys.exit()
+
 #start date (the day of the first image)
 startingdate = datetime.strptime(FIRSTDAY, date_format)
 
-# loading pictures from folder
+#load pictures from folder
 filelist =  glob.glob(path + "/*.jpg")
 count = len(filelist)
 
