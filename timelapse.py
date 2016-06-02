@@ -10,8 +10,10 @@ import io
 import time
 import glob
 import os
-from datetime import datetime
+import progressbar
 
+from datetime import datetime
+from time import sleep
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
@@ -44,9 +46,14 @@ startingdate = datetime.strptime(FIRSTDAY, date_format)
 filelist =  glob.glob(path + "/*.jpg")
 count = len(filelist)
 
+#create progressbar
+bar = progressbar.ProgressBar(maxval=count, widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
 #create folder movie
 if not os.path.exists(path + "/movie"):
     os.makedirs(path + "/movie")
+
+print "start converting"
+bar.start()
 
 for i in xrange(count):
    # load picture
@@ -67,6 +74,12 @@ for i in xrange(count):
    
    # save new image
    img.save(path + "/movie/img" + str(i) + ".jpg")
+
+   #update bar
+   bar.update(i)
+   sleep(0.1)
+
+bar.finish()
 
 print os.popen("./ffmpeg -framerate "+ str(FRAMERATE) +" -start_number 0 -i " + path.replace(" ", "\ ") +"/movie/img%d.jpg -f mp4 -vcodec h264 "+ path.replace(" ", "\ ") +"/movie/film.mp4").read()
 
